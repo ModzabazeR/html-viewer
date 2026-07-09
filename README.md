@@ -1,10 +1,14 @@
 # html-viewer
 
-An [Equicord](https://github.com/Equicord/Equicord) / [Vencord](https://github.com/Vendicated/Vencord) **userplugin** that renders `.html` file attachments inline in Discord, inside a locked sandbox — instead of showing a download chip or raw source.
+A Discord client-mod plugin that renders `.html` file attachments inline, inside a locked sandbox — instead of showing a download chip or raw source.
+
+Ships for two client mods, sharing one tested core:
+- **[Shelter](https://shelter.uwu.network)** — install by pasting a URL, no build. The easy path.
+- **[Vencord](https://github.com/Vendicated/Vencord) / [Equicord](https://github.com/Equicord/Equicord)** — build from source as a userplugin.
 
 Built for teams who pass around AI-generated HTML artifacts (reports, dashboards, mockups) in chat and want to actually *see* them without leaving Discord.
 
-> **Heads up:** this is a userplugin you build yourself. It is **not** on the Equicord plugin list and is not eligible for it (see [Why a userplugin](#why-a-userplugin-and-not-upstream)). It renders other people's HTML — read [Security model](#security-model) before using it in servers you don't trust.
+> **Heads up:** it renders other people's HTML — read the [Security model](#security-model) before using it in servers you don't trust. On Vencord/Equicord it's a self-built userplugin, not on the official plugin list and not eligible for it (see [Why a userplugin](#why-a-userplugin-and-not-upstream)).
 
 ## Repo layout
 
