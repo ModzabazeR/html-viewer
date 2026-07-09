@@ -241,11 +241,19 @@ function processRow(row: HTMLElement) {
     const guildId = (ChannelStore as any).getChannel?.(msg.channel_id)?.guild_id;
     const authorId = msg.author?.id;
 
+    // the indented content column (holds username + text + attachments); our card must
+    // live here so it lines up with the message text, not flush against the window edge.
+    const contents = (row.querySelector('[class*="contents"]') as HTMLElement | null) ?? row;
+
     for (const att of artifacts) {
-        // find the native attachment node (its download link references the id/url)
+        // the native file card for THIS attachment: non-image files render as a compact
+        // card whose download link carries the attachment id in the CDN url. Match the
+        // per-file card specifically (not a generic "wrapper", which is the full-width row).
         const link = row.querySelector(`a[href*="${att.id}"]`) as HTMLElement | null;
-        const nativeWrap = link
-            ? (link.closest('[class*="attachment"], [class*="wrapper"], [class*="messageAttachment"]') as HTMLElement | null) ?? link.parentElement
+        const nativeCard = link
+            ? (link.closest(
+                '[class*="nonMediaAttachment"], [class*="attachmentContentItem"], [class*="messageAttachment"]',
+            ) as HTMLElement | null)
             : null;
 
         const mount = document.createElement("div");
@@ -253,11 +261,11 @@ function processRow(row: HTMLElement) {
         const dispose = render(() => <HtmlCard att={att} authorId={authorId} guildId={guildId} />, mount);
         disposers.push(dispose);
 
-        if (nativeWrap && nativeWrap.parentElement) {
-            nativeWrap.parentElement.insertBefore(mount, nativeWrap);
-            nativeWrap.style.display = "none"; // hide Discord's native preview/chip
+        if (nativeCard && nativeCard.parentElement) {
+            nativeCard.parentElement.insertBefore(mount, nativeCard);
+            nativeCard.style.display = "none"; // hide Discord's native card for this .html only
         } else {
-            row.appendChild(mount); // fallback: end of the message row
+            contents.appendChild(mount); // fallback: end of the indented column (still text-aligned)
         }
     }
 }
