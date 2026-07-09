@@ -2,13 +2,10 @@
   "name": "html-viewer",
   "version": "0.3.0",
   "private": true,
-  "description": "Equicord/Vencord userplugin that renders .html file attachments inline in Discord, sandboxed.",
+  "description": "Sandboxed inline .html attachment renderer for Discord — shared core, Vencord/Equicord + Shelter targets.",
   "license": "GPL-3.0-or-later",
-  "type": "module",
   "scripts": {
-    "test": "vitest run"
-  },
-  "devDependencies": {
-    "vitest": "^3.2.4"
+    "test": "pnpm --filter @html-viewer/core test",
+    "build:vencord": "node scripts/build-vencord.mjs"
   }
 }

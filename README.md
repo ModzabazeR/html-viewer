@@ -6,6 +6,21 @@ Built for teams who pass around AI-generated HTML artifacts (reports, dashboards
 
 > **Heads up:** this is a userplugin you build yourself. It is **not** on the Equicord plugin list and is not eligible for it (see [Why a userplugin](#why-a-userplugin-and-not-upstream)). It renders other people's HTML — read [Security model](#security-model) before using it in servers you don't trust.
 
+## Repo layout
+
+A small monorepo so the two client targets share one tested core:
+
+```
+core/       @html-viewer/core — framework-agnostic logic (CSP hardening, attachment
+            detection, auto-render allowlists) + its unit tests. Single source of truth.
+vencord/    Vencord/Equicord plugin (React). Imports the core by relative path; the core
+            is stitched in at build time (see below), so it is never duplicated in git.
+shelter/    Shelter plugin (SolidJS, runtime-loaded from a URL). — coming soon.
+scripts/    build-vencord.mjs — assembles core + vencord into a flat plugin folder.
+```
+
+Why the split: Equicord compiles plugins from a *flat* folder inside its own tree and can't resolve imports outside it, so the Vencord target is assembled by copying `core/` in beside it. Shelter bundles with Lune and imports the core normally.
+
 ## What it does
 
 - **Render** — an `.html` attachment shows a compact card. Click **Render** and it renders inline in a sandboxed iframe. Nothing executes until you ask it to; scrollback stays inert.
@@ -41,13 +56,16 @@ The pure security logic (CSP construction + injection ordering, attachment detec
 ### 1. Build Equicord with this plugin
 
 ```sh
+# in this repo: assemble the flat plugin folder (core + vencord stitched together)
+pnpm install
+pnpm build:vencord           # -> dist/vencord/htmlViewer/
+
 git clone https://github.com/Equicord/Equicord
 cd Equicord
 pnpm install --frozen-lockfile
 
-# copy this repo's src/ into a userplugin folder
-mkdir -p src/userplugins/htmlViewer
-cp /path/to/html-viewer/src/* src/userplugins/htmlViewer/
+# drop the assembled folder into Equicord's userplugins
+cp -r /path/to/html-viewer/dist/vencord/htmlViewer src/userplugins/
 ```
 
 Then build for your client:
@@ -82,32 +100,36 @@ In the plugin's settings:
 - **autoRenderAll** — auto-render every artifact inline (skip the Render click).
 - **autoRenderUsers / autoRenderServers** — comma-separated ID allowlists. Easiest to manage with the person / server toggle icons on each card.
 
-Trusted CDNs for the inline tier are listed in `src/harden.ts` (`TRUSTED_CDNS`) — edit that list to add hosts your artifacts rely on.
+Trusted CDNs for the inline tier are listed in `core/src/harden.ts` (`TRUSTED_CDNS`) — edit that list to add hosts your artifacts rely on.
 
 ## Updating
 
 When Equicord updates, or if a Discord change breaks the attachment-hiding patch (Equicord logs a patch-failure at startup; the native preview reappearing is the tell):
 
 ```sh
+# in this repo
+git pull && pnpm install && pnpm build:vencord
+
+# in Equicord
 cd Equicord && git pull && pnpm install --frozen-lockfile
-cp /path/to/html-viewer/src/* src/userplugins/htmlViewer/
+rm -rf src/userplugins/htmlViewer && cp -r /path/to/html-viewer/dist/vencord/htmlViewer src/userplugins/
 pnpm buildWeb   # then re-copy the bundle into Legcord
 ```
 
 ## Tests
 
-The pure modules (`harden`, `detect`, `allowlist`) have no Discord dependencies and are unit-tested with [Vitest](https://vitest.dev):
+The `core/` modules (`harden`, `detect`, `allowlist`) have no Discord dependencies and are unit-tested with [Vitest](https://vitest.dev):
 
 ```sh
-npm install
-npm test
+pnpm install
+pnpm test
 ```
 
 The React/iframe layer is verified manually (there is no plugin test harness in Equicord).
 
 ## Known limits
 
-- **Full view blocks runtime `fetch` by design.** Artifacts that pull live data at runtime won't populate; artifacts that embed their data render fully. Widen `FULLVIEW_CSP` in `src/harden.ts` if you need runtime fetch (and accept the exfil tradeoff).
+- **Full view blocks runtime `fetch` by design.** Artifacts that pull live data at runtime won't populate; artifacts that embed their data render fully. Widen `FULLVIEW_CSP` in `core/src/harden.ts` if you need runtime fetch (and accept the exfil tradeoff).
 - **The attachment-hiding patch rides a Discord code anchor.** If Discord shifts it, the patch stops applying (Equicord logs it at startup) and the native preview returns until the anchor is updated.
 - **Pinning Equicord in Legcord's "don't auto-update" pauses Equicord updates** for that slot until you rebuild.
 

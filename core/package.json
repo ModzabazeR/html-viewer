@@ -1,0 +1,15 @@
+{
+  "name": "@html-viewer/core",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Framework-agnostic core for html-viewer: CSP hardening, attachment detection, auto-render allowlists.",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

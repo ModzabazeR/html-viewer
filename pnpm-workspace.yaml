@@ -1,0 +1,9 @@
+packages:
+  - core
+  # - shelter   # added once the Shelter plugin is built
+
+# vitest bundles esbuild, whose postinstall pnpm blocks by default
+allowBuilds:
+  esbuild: true
+onlyBuiltDependencies:
+  - esbuild
