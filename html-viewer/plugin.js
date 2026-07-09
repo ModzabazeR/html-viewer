@@ -403,18 +403,11 @@ function processRow(row) {
 	if (!artifacts.length) return;
 	const guildId = ChannelStore.getChannel?.(msg.channel_id)?.guild_id;
 	const authorId = msg.author?.id;
-	const contents = row.querySelector("[class*=\"contents\"]") ?? row;
+	const contents = row.querySelector("[class*=\"contents\"]");
 	for (const att of artifacts) {
 		const link = row.querySelector(`a[href*="${att.id}"]`);
-		let nativeItem = null;
-		if (link && contents !== row) {
-			let n = link;
-			while (n && n.parentElement && n.parentElement !== contents) n = n.parentElement;
-			nativeItem = n && n.parentElement === contents ? n : null;
-		}
-		const holdsForeignMedia = nativeItem?.querySelector(`img[src*="cdn.discordapp.com/attachments"]:not([src*="${att.id}"]), video:not([src*="${att.id}"])`) ?? null;
-		const fileCard = link?.closest("[class*=\"nonMediaAttachment\"], [class*=\"attachmentContentItem\"], [class*=\"messageAttachment\"]") ?? null;
-		const hideTarget = nativeItem && !holdsForeignMedia ? nativeItem : fileCard;
+		const nativeWrap = link?.closest("[class*=\"nonVisualMediaItemContainer\"]") ?? link?.closest("[class*=\"nonVisualMediaItem\"], [class*=\"mosaicItem\"], [class*=\"messageAttachment\"]");
+		if (nativeWrap) nativeWrap.style.display = "none";
 		const mount = document.createElement("div");
 		mount.className = "hv-mount";
 		const dispose = render(() => (0, import_web$9.createComponent)(HtmlCard, {
@@ -423,10 +416,8 @@ function processRow(row) {
 			guildId
 		}), mount);
 		disposers.push(dispose);
-		if (hideTarget && hideTarget.parentElement) {
-			hideTarget.parentElement.insertBefore(mount, hideTarget);
-			hideTarget.style.display = "none";
-		} else contents.appendChild(mount);
+		if (contents) contents.appendChild(mount);
+else row.appendChild(mount);
 	}
 }
 const TRIGGERS = [
