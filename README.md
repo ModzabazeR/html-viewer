@@ -15,7 +15,8 @@ core/       @html-viewer/core — framework-agnostic logic (CSP hardening, attac
             detection, auto-render allowlists) + its unit tests. Single source of truth.
 vencord/    Vencord/Equicord plugin (React). Imports the core by relative path; the core
             is stitched in at build time (see below), so it is never duplicated in git.
-shelter/    Shelter plugin (SolidJS, runtime-loaded from a URL). — coming soon.
+shelter/    Shelter plugin (SolidJS). Built with Lune, deployed to GitHub Pages,
+            installed by pasting a URL — no build step for end users.
 scripts/    build-vencord.mjs — assembles core + vencord into a flat plugin folder.
 ```
 
@@ -52,6 +53,19 @@ The pure security logic (CSP construction + injection ordering, attachment detec
 - An Equicord (or Vencord) checkout you build from source
 
 ## Install
+
+There are two clients. **Shelter is the easy one** — no build, just paste a URL.
+
+### Shelter (easiest — no build)
+
+1. Make sure you have [Shelter](https://shelter.uwu.network) installed in your Discord client.
+2. In Discord: **User Settings → Shelter → Settings → Plugins → Add Plugin**.
+3. Paste: `https://modzabazer.github.io/html-viewer/html-viewer/`
+4. Done. It updates itself when a new version is deployed.
+
+Shelter renders the UI in SolidJS and injects via DOM observation; the security model and behavior are the same as the Vencord build below. (Building/hosting your own Shelter copy: `cd shelter && pnpm install && pnpm build && pnpm ssg`, then serve `shelter/dist/` — the repo's GitHub Actions workflow does exactly this on push.)
+
+### Vencord / Equicord (build from source)
 
 ### 1. Build Equicord with this plugin
 
