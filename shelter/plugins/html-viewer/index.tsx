@@ -29,6 +29,7 @@ const {
     ui: {
         openModal,
         ModalRoot,
+        ModalSizes,
         ModalHeader,
         ModalBody,
         ModalFooter,
@@ -52,7 +53,7 @@ store.autoRenderServers ??= "";
 
 // ---- styles ----
 const CSS = `
-.hv-card{margin-top:4px;border:1px solid var(--background-modifier-accent,rgba(255,255,255,.09));border-radius:8px;background:var(--background-secondary,var(--background-secondary-alt,#2b2d31));overflow:hidden;max-width:min(960px,100%)}
+.hv-card{margin-top:4px;border:1px solid var(--background-modifier-accent,rgba(255,255,255,.09));border-radius:8px;background:var(--background-secondary,var(--background-secondary-alt,#2b2d31));overflow:hidden;max-width:min(680px,100%)}
 .hv-head{display:flex;align-items:center;gap:8px;padding:8px 10px}
 .hv-lock{font-size:13px;cursor:help;flex:0 0 auto}
 .hv-name{font-weight:600;color:var(--text-normal,#dbdee1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
@@ -70,7 +71,8 @@ const CSS = `
 .hv-icon{flex:0 0 auto;display:block}
 .hv-frame{border:none;background:#fff;display:block;width:100%}
 .hv-frame-inline{height:480px;border-top:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
-.hv-frame-modal{height:72vh}
+.hv-frame-modal{height:80vh;min-height:80vh}
+.hv-modal{width:min(1100px,92vw)!important;max-width:1100px!important}
 `;
 
 // ---- fetch cache (attachment id -> html text) ----
@@ -118,7 +120,7 @@ function openFullView(att: any) {
     fetchHtml(att).then(text => {
         const frame = makeFrame(text, "full");
         openModal((props: any) => (
-            <ModalRoot>
+            <ModalRoot size={ModalSizes.LARGE} class="hv-modal">
                 <ModalHeader close={props.close}>{att.filename}</ModalHeader>
                 <ModalBody>{frame}</ModalBody>
                 <ModalFooter>
