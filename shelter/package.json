@@ -1,0 +1,16 @@
+{
+  "name": "html-viewer-shelter",
+  "private": true,
+  "type": "module",
+  "workspaces": ["plugins/*"],
+  "scripts": {
+    "build": "lune ci",
+    "ssg": "lune ssg ci",
+    "dev": "lune dev"
+  },
+  "devDependencies": {
+    "@uwu/lune": "^1.6.2",
+    "@uwu/shelter-defs": "^1.4.1",
+    "solid-js": "1.6.16"
+  }
+}
