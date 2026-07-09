@@ -246,24 +246,39 @@ function processRow(row: HTMLElement) {
     const contents = (row.querySelector('[class*="contents"]') as HTMLElement | null) ?? row;
 
     for (const att of artifacts) {
-        // the native file card for THIS attachment: non-image files render as a compact
-        // card whose download link carries the attachment id in the CDN url. Match the
-        // per-file card specifically (not a generic "wrapper", which is the full-width row).
+        // Discord's native rendering of a .html attachment is TWO sibling elements — the file
+        // card and an inline source/code preview — grouped in one accessory item. Hide that
+        // whole item (found as the nearest ancestor of the download link that sits directly in
+        // the indented content column) so neither shows, and insert our card before it so it
+        // stays text-aligned. Guard: if that item also holds a *different* attachment's media,
+        // hide only this file's card instead, so co-posted images survive.
         const link = row.querySelector(`a[href*="${att.id}"]`) as HTMLElement | null;
-        const nativeCard = link
-            ? (link.closest(
+
+        let nativeItem: HTMLElement | null = null;
+        if (link && contents !== row) {
+            let n: HTMLElement | null = link;
+            while (n && n.parentElement && n.parentElement !== contents) n = n.parentElement;
+            nativeItem = n && n.parentElement === contents ? n : null;
+        }
+        const holdsForeignMedia =
+            nativeItem?.querySelector(
+                `img[src*="cdn.discordapp.com/attachments"]:not([src*="${att.id}"]), video:not([src*="${att.id}"])`,
+            ) ?? null;
+        const fileCard =
+            (link?.closest(
                 '[class*="nonMediaAttachment"], [class*="attachmentContentItem"], [class*="messageAttachment"]',
-            ) as HTMLElement | null)
-            : null;
+            ) as HTMLElement | null) ?? null;
+
+        const hideTarget = nativeItem && !holdsForeignMedia ? nativeItem : fileCard;
 
         const mount = document.createElement("div");
         mount.className = "hv-mount";
         const dispose = render(() => <HtmlCard att={att} authorId={authorId} guildId={guildId} />, mount);
         disposers.push(dispose);
 
-        if (nativeCard && nativeCard.parentElement) {
-            nativeCard.parentElement.insertBefore(mount, nativeCard);
-            nativeCard.style.display = "none"; // hide Discord's native card for this .html only
+        if (hideTarget && hideTarget.parentElement) {
+            hideTarget.parentElement.insertBefore(mount, hideTarget);
+            hideTarget.style.display = "none"; // hide the native card + code preview
         } else {
             contents.appendChild(mount); // fallback: end of the indented column (still text-aligned)
         }
