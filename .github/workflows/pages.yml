@@ -1,5 +1,9 @@
 name: Deploy Shelter plugin to Pages
 
+# Builds the Shelter plugin + SSG site and publishes it to the gh-pages branch,
+# which GitHub Pages serves. Single job = one runner (more resilient than the
+# split build/deploy-pages flow). Pages source must be set to the gh-pages branch.
+
 on:
   push:
     branches: [main]
@@ -10,16 +14,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: pages-deploy
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,26 +34,15 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install
-        working-directory: shelter
-        run: pnpm install --no-frozen-lockfile
-
       - name: Build plugin + static site
         working-directory: shelter
         run: |
+          pnpm install --no-frozen-lockfile
           pnpm exec lune ci
           pnpm exec lune ssg ci
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: peaceiris/actions-gh-pages@v4
         with:
-          path: shelter/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: shelter/dist
+          publish_branch: gh-pages
