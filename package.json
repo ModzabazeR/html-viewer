@@ -1,0 +1,14 @@
+{
+  "name": "html-viewer",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Equicord/Vencord userplugin that renders .html file attachments inline in Discord, sandboxed.",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
