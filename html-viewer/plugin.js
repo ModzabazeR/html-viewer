@@ -403,9 +403,10 @@ function processRow(row) {
 	if (!artifacts.length) return;
 	const guildId = ChannelStore.getChannel?.(msg.channel_id)?.guild_id;
 	const authorId = msg.author?.id;
+	const contents = row.querySelector("[class*=\"contents\"]") ?? row;
 	for (const att of artifacts) {
 		const link = row.querySelector(`a[href*="${att.id}"]`);
-		const nativeWrap = link ? link.closest("[class*=\"attachment\"], [class*=\"wrapper\"], [class*=\"messageAttachment\"]") ?? link.parentElement : null;
+		const nativeCard = link ? link.closest("[class*=\"nonMediaAttachment\"], [class*=\"attachmentContentItem\"], [class*=\"messageAttachment\"]") : null;
 		const mount = document.createElement("div");
 		mount.className = "hv-mount";
 		const dispose = render(() => (0, import_web$9.createComponent)(HtmlCard, {
@@ -414,10 +415,10 @@ function processRow(row) {
 			guildId
 		}), mount);
 		disposers.push(dispose);
-		if (nativeWrap && nativeWrap.parentElement) {
-			nativeWrap.parentElement.insertBefore(mount, nativeWrap);
-			nativeWrap.style.display = "none";
-		} else row.appendChild(mount);
+		if (nativeCard && nativeCard.parentElement) {
+			nativeCard.parentElement.insertBefore(mount, nativeCard);
+			nativeCard.style.display = "none";
+		} else contents.appendChild(mount);
 	}
 }
 const TRIGGERS = [
