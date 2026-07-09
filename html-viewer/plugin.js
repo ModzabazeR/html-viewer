@@ -143,13 +143,13 @@ var import_web$7 = __toESM(require_web(), 1);
 var import_web$8 = __toESM(require_web(), 1);
 var import_web$9 = __toESM(require_web(), 1);
 const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<svg class="hv-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path></path></svg>`, 4), _tmpl$2 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render this user's HTML"></button>`, 2), _tmpl$3 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render HTML in this server"></button>`, 2), _tmpl$4 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn hv-btn-primary"><!#><!/> Render</button>`, 4), _tmpl$5 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn"><!#><!/> Collapse</button>`, 4), _tmpl$6 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note"><!#><!/> exceeds the <!#><!/> KB inline limit. Use Full view or Download.</div>`, 6), _tmpl$7 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note">Rendering…</div>`, 2), _tmpl$8 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-error">Couldn't load artifact: <!#><!/></div>`, 4), _tmpl$9 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-hint">References assets outside the trusted CDNs, which the inline preview blocks. Use Full view.</div>`, 2), _tmpl$0 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-card"><div class="hv-head"><span class="hv-lock" title="Inline preview is sandboxed; Full view enables CDN network. Neither can touch Discord.">🔒</span><span class="hv-name"></span><span class="hv-size"></span><span class="hv-spacer"></span><!#><!/><!#><!/><!#><!/><!#><!/><button class="hv-btn"><!#><!/> Full view</button><button class="hv-btn"><!#><!/> Download</button></div><!#><!/><!#><!/></div>`, 32), _tmpl$1 = /*#__PURE__*/ (0, import_web.template)(`<div><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/></div>`, 22);
-const { flux: { storesFlat: { SelectedChannelStore, ChannelStore }, dispatcher }, util: { getFiber, reactFiberWalker }, observeDom, solid: { createSignal, createEffect, Show }, solidWeb: { render }, ui: { openModal, ModalRoot, ModalHeader, ModalBody, ModalFooter, Button, Text, Header, HeaderTags, Divider, SwitchItem, TextBox, injectCss }, plugin: { store } } = shelter;
+const { flux: { storesFlat: { SelectedChannelStore, ChannelStore }, dispatcher }, util: { getFiber, reactFiberWalker }, observeDom, solid: { createSignal, createEffect, Show }, solidWeb: { render }, ui: { openModal, ModalRoot, ModalSizes, ModalHeader, ModalBody, ModalFooter, Button, Text, Header, HeaderTags, Divider, SwitchItem, TextBox, injectCss }, plugin: { store } } = shelter;
 store.maxSizeKb ??= 512;
 store.autoRenderAll ??= false;
 store.autoRenderUsers ??= "";
 store.autoRenderServers ??= "";
 const CSS = `
-.hv-card{margin-top:4px;border:1px solid var(--background-modifier-accent,rgba(255,255,255,.09));border-radius:8px;background:var(--background-secondary,var(--background-secondary-alt,#2b2d31));overflow:hidden;max-width:min(960px,100%)}
+.hv-card{margin-top:4px;border:1px solid var(--background-modifier-accent,rgba(255,255,255,.09));border-radius:8px;background:var(--background-secondary,var(--background-secondary-alt,#2b2d31));overflow:hidden;max-width:min(680px,100%)}
 .hv-head{display:flex;align-items:center;gap:8px;padding:8px 10px}
 .hv-lock{font-size:13px;cursor:help;flex:0 0 auto}
 .hv-name{font-weight:600;color:var(--text-normal,#dbdee1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
@@ -167,7 +167,8 @@ const CSS = `
 .hv-icon{flex:0 0 auto;display:block}
 .hv-frame{border:none;background:#fff;display:block;width:100%}
 .hv-frame-inline{height:480px;border-top:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
-.hv-frame-modal{height:72vh}
+.hv-frame-modal{height:80vh;min-height:80vh}
+.hv-modal{width:min(1100px,92vw)!important;max-width:1100px!important}
 `;
 const htmlCache = new Map();
 async function fetchHtml(att) {
@@ -206,27 +207,33 @@ function download(att) {
 function openFullView(att) {
 	fetchHtml(att).then((text) => {
 		const frame = makeFrame(text, "full");
-		openModal((props) => (0, import_web$9.createComponent)(ModalRoot, { get children() {
-			return [
-				(0, import_web$9.createComponent)(ModalHeader, {
-					get close() {
-						return props.close;
-					},
-					get children() {
-						return att.filename;
-					}
-				}),
-				(0, import_web$9.createComponent)(ModalBody, { children: frame }),
-				(0, import_web$9.createComponent)(ModalFooter, { get children() {
-					return (0, import_web$9.createComponent)(Button, {
-						get onClick() {
+		openModal((props) => (0, import_web$9.createComponent)(ModalRoot, {
+			get size() {
+				return ModalSizes.LARGE;
+			},
+			"class": "hv-modal",
+			get children() {
+				return [
+					(0, import_web$9.createComponent)(ModalHeader, {
+						get close() {
 							return props.close;
 						},
-						children: "Done"
-					});
-				} })
-			];
-		} }));
+						get children() {
+							return att.filename;
+						}
+					}),
+					(0, import_web$9.createComponent)(ModalBody, { children: frame }),
+					(0, import_web$9.createComponent)(ModalFooter, { get children() {
+						return (0, import_web$9.createComponent)(Button, {
+							get onClick() {
+								return props.close;
+							},
+							children: "Done"
+						});
+					} })
+				];
+			}
+		}));
 	});
 }
 const svg = (d) => (() => {
