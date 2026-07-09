@@ -241,47 +241,33 @@ function processRow(row: HTMLElement) {
     const guildId = (ChannelStore as any).getChannel?.(msg.channel_id)?.guild_id;
     const authorId = msg.author?.id;
 
-    // the indented content column (holds username + text + attachments); our card must
-    // live here so it lines up with the message text, not flush against the window edge.
-    const contents = (row.querySelector('[class*="contents"]') as HTMLElement | null) ?? row;
+    // the indented content column (holds username + text). Discord renders attachments in a
+    // SIBLING accessories container, but both share the message's avatar-gutter indent, so
+    // mounting our card at the end of this column lines it up with the message text.
+    const contents = row.querySelector('[class*="contents"]') as HTMLElement | null;
 
     for (const att of artifacts) {
-        // Discord's native rendering of a .html attachment is TWO sibling elements — the file
-        // card and an inline source/code preview — grouped in one accessory item. Hide that
-        // whole item (found as the nearest ancestor of the download link that sits directly in
-        // the indented content column) so neither shows, and insert our card before it so it
-        // stays text-aligned. Guard: if that item also holds a *different* attachment's media,
-        // hide only this file's card instead, so co-posted images survive.
         const link = row.querySelector(`a[href*="${att.id}"]`) as HTMLElement | null;
 
-        let nativeItem: HTMLElement | null = null;
-        if (link && contents !== row) {
-            let n: HTMLElement | null = link;
-            while (n && n.parentElement && n.parentElement !== contents) n = n.parentElement;
-            nativeItem = n && n.parentElement === contents ? n : null;
-        }
-        const holdsForeignMedia =
-            nativeItem?.querySelector(
-                `img[src*="cdn.discordapp.com/attachments"]:not([src*="${att.id}"]), video:not([src*="${att.id}"])`,
-            ) ?? null;
-        const fileCard =
+        // Discord renders a .html attachment as a "non-visual media" card whose body includes
+        // an inline source/code preview. Hide the per-file wrapper (which contains both the
+        // card and the preview). Matching the NON-VISUAL wrapper specifically leaves co-posted
+        // images (visual mosaic items) untouched. Fall back through inner wrappers if Discord's
+        // class prefixes shift.
+        const nativeWrap =
+            (link?.closest('[class*="nonVisualMediaItemContainer"]') as HTMLElement | null) ??
             (link?.closest(
-                '[class*="nonMediaAttachment"], [class*="attachmentContentItem"], [class*="messageAttachment"]',
-            ) as HTMLElement | null) ?? null;
-
-        const hideTarget = nativeItem && !holdsForeignMedia ? nativeItem : fileCard;
+                '[class*="nonVisualMediaItem"], [class*="mosaicItem"], [class*="messageAttachment"]',
+            ) as HTMLElement | null);
+        if (nativeWrap) nativeWrap.style.display = "none";
 
         const mount = document.createElement("div");
         mount.className = "hv-mount";
         const dispose = render(() => <HtmlCard att={att} authorId={authorId} guildId={guildId} />, mount);
         disposers.push(dispose);
 
-        if (hideTarget && hideTarget.parentElement) {
-            hideTarget.parentElement.insertBefore(mount, hideTarget);
-            hideTarget.style.display = "none"; // hide the native card + code preview
-        } else {
-            contents.appendChild(mount); // fallback: end of the indented column (still text-aligned)
-        }
+        if (contents) contents.appendChild(mount);
+        else row.appendChild(mount);
     }
 }
 
