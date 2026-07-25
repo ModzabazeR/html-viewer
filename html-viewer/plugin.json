@@ -1,1 +1,1 @@
-{"name":"HTML Viewer","author":"modda","description":"Renders .html file attachments inline in a locked sandbox, with a CDN-rendering Full view and per-user/server auto-render.","hash":"61d9362ded975a59d5fbf011fee60c5f"}
+{"name":"HTML Viewer (DEPRECATED — moved)","author":"modda","description":"DEPRECATED — this plugin moved to the shelter-plugins hub and is no longer updated here. Remove it and add https://modzabazer.github.io/shelter-plugins/html-viewer/ instead.","hash":"6e08256704653f576e7f0f8f7a2cf8d5"}

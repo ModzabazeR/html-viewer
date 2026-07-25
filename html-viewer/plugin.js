@@ -142,7 +142,7 @@ var import_web$6 = __toESM(require_web(), 1);
 var import_web$7 = __toESM(require_web(), 1);
 var import_web$8 = __toESM(require_web(), 1);
 var import_web$9 = __toESM(require_web(), 1);
-const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<svg class="hv-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path></path></svg>`, 4), _tmpl$2 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render this user's HTML"></button>`, 2), _tmpl$3 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render HTML in this server"></button>`, 2), _tmpl$4 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn hv-btn-primary"><!#><!/> Render</button>`, 4), _tmpl$5 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn"><!#><!/> Collapse</button>`, 4), _tmpl$6 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note"><!#><!/> exceeds the <!#><!/> KB inline limit. Use Full view or Download.</div>`, 6), _tmpl$7 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note">Rendering…</div>`, 2), _tmpl$8 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-error">Couldn't load artifact: <!#><!/></div>`, 4), _tmpl$9 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-hint">References assets outside the trusted CDNs, which the inline preview blocks. Use Full view.</div>`, 2), _tmpl$0 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-card"><div class="hv-head"><span class="hv-lock" title="Inline preview is sandboxed; Full view enables CDN network. Neither can touch Discord.">🔒</span><span class="hv-name"></span><span class="hv-size"></span><span class="hv-spacer"></span><!#><!/><!#><!/><!#><!/><!#><!/><button class="hv-btn"><!#><!/> Full view</button><button class="hv-btn"><!#><!/> Download</button></div><!#><!/><!#><!/></div>`, 32), _tmpl$1 = /*#__PURE__*/ (0, import_web.template)(`<div><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/></div>`, 22);
+const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-dep"><b>⚠ HTML Viewer has moved.</b> This copy is deprecated and will not be updated again. Remove it, then add <code>https://modzabazer.github.io/shelter-plugins/html-viewer/</code> as a new plugin.</div>`, 6), _tmpl$2 = /*#__PURE__*/ (0, import_web.template)(`<svg class="hv-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path></path></svg>`, 4), _tmpl$3 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render this user's HTML"></button>`, 2), _tmpl$4 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-toggle" title="Always render HTML in this server"></button>`, 2), _tmpl$5 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn hv-btn-primary"><!#><!/> Render</button>`, 4), _tmpl$6 = /*#__PURE__*/ (0, import_web.template)(`<button class="hv-btn"><!#><!/> Collapse</button>`, 4), _tmpl$7 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note"><!#><!/> exceeds the <!#><!/> KB inline limit. Use Full view or Download.</div>`, 6), _tmpl$8 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note">Rendering…</div>`, 2), _tmpl$9 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-error">Couldn't load artifact: <!#><!/></div>`, 4), _tmpl$0 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-note hv-hint">References assets outside the trusted CDNs, which the inline preview blocks. Use Full view.</div>`, 2), _tmpl$1 = /*#__PURE__*/ (0, import_web.template)(`<div class="hv-card"><!#><!/><div class="hv-head"><span class="hv-lock" title="Inline preview is sandboxed; Full view enables CDN network. Neither can touch Discord.">🔒</span><span class="hv-name"></span><span class="hv-size"></span><span class="hv-spacer"></span><!#><!/><!#><!/><!#><!/><!#><!/><button class="hv-btn"><!#><!/> Full view</button><button class="hv-btn"><!#><!/> Download</button></div><!#><!/><!#><!/></div>`, 34), _tmpl$10 = /*#__PURE__*/ (0, import_web.template)(`<div><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/><!#><!/></div>`, 26);
 const { flux: { storesFlat: { SelectedChannelStore, ChannelStore }, dispatcher }, util: { getFiber, reactFiberWalker }, observeDom, solid: { createSignal, createEffect, Show }, solidWeb: { render }, ui: { openModal, ModalRoot, ModalSizes, ModalHeader, ModalBody, ModalFooter, Button, Text, Header, HeaderTags, Divider, SwitchItem, TextBox, injectCss }, plugin: { store } } = shelter;
 store.maxSizeKb ??= 512;
 store.autoRenderAll ??= false;
@@ -168,8 +168,14 @@ const CSS = `
 .hv-frame{border:none;background:#fff;display:block;width:100%}
 .hv-frame-inline{height:480px;border-top:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
 .hv-frame-modal{height:80vh;min-height:80vh}
-.hv-modal{width:min(1100px,92vw)!important;max-width:1100px!important}
+.hv-modal{width:min(1600px,94vw)!important;max-width:94vw!important}
+.hv-dep{padding:8px 10px;font-size:12px;line-height:1.5;color:var(--text-normal,#dbdee1);background:rgba(240,178,50,.1);border-bottom:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
+.hv-dep b{color:var(--text-warning,#f0b232)}
+.hv-dep code{user-select:all;font-family:var(--font-code,monospace);background:rgba(0,0,0,.25);padding:1px 4px;border-radius:3px;white-space:nowrap}
 `;
+function DeprecationNotice() {
+	return (0, import_web$9.getNextElement)(_tmpl$);
+}
 const htmlCache = new Map();
 async function fetchHtml(att) {
 	if (htmlCache.has(att.id)) return htmlCache.get(att.id);
@@ -207,14 +213,14 @@ function download(att) {
 function openFullView(att) {
 	fetchHtml(att).then((text) => {
 		const frame = makeFrame(text, "full");
-		openModal((props) => (0, import_web$9.createComponent)(ModalRoot, {
+		openModal((props) => (0, import_web$8.createComponent)(ModalRoot, {
 			get size() {
 				return ModalSizes.LARGE;
 			},
 			"class": "hv-modal",
 			get children() {
 				return [
-					(0, import_web$9.createComponent)(ModalHeader, {
+					(0, import_web$8.createComponent)(ModalHeader, {
 						get close() {
 							return props.close;
 						},
@@ -222,9 +228,9 @@ function openFullView(att) {
 							return att.filename;
 						}
 					}),
-					(0, import_web$9.createComponent)(ModalBody, { children: frame }),
-					(0, import_web$9.createComponent)(ModalFooter, { get children() {
-						return (0, import_web$9.createComponent)(Button, {
+					(0, import_web$8.createComponent)(ModalBody, { children: frame }),
+					(0, import_web$8.createComponent)(ModalFooter, { get children() {
+						return (0, import_web$8.createComponent)(Button, {
 							get onClick() {
 								return props.close;
 							},
@@ -237,9 +243,9 @@ function openFullView(att) {
 	});
 }
 const svg = (d) => (() => {
-	const _el$ = (0, import_web$7.getNextElement)(_tmpl$), _el$2 = _el$.firstChild;
-	(0, import_web$8.setAttribute)(_el$2, "d", d);
-	return _el$;
+	const _el$2 = (0, import_web$9.getNextElement)(_tmpl$2), _el$3 = _el$2.firstChild;
+	(0, import_web$7.setAttribute)(_el$3, "d", d);
+	return _el$2;
 })();
 const RenderIcon = () => svg("M12 5c-5 0-9 4.2-10 7 1 2.8 5 7 10 7s9-4.2 10-7c-1-2.8-5-7-10-7zm0 11.5A4.5 4.5 0 1112 7.5a4.5 4.5 0 010 9zm0-2.2a2.3 2.3 0 100-4.6 2.3 2.3 0 000 4.6z");
 const ExpandIcon = () => svg("M4 4h6V2H2v8h2V4zm16 0v6h2V2h-8v2h6zM4 14H2v8h8v-2H4v-6zm18 0h-2v6h-6v2h8v-8z");
@@ -287,112 +293,113 @@ function HtmlCard(props) {
 		if (open() && h) holder.append(makeFrame(h, "locked"));
 	});
 	return (() => {
-		const _el$3 = (0, import_web$7.getNextElement)(_tmpl$0), _el$4 = _el$3.firstChild, _el$5 = _el$4.firstChild, _el$6 = _el$5.nextSibling, _el$7 = _el$6.nextSibling, _el$8 = _el$7.nextSibling, _el$25 = _el$8.nextSibling, [_el$26, _co$5] = (0, import_web$2.getNextMarker)(_el$25.nextSibling), _el$27 = _el$26.nextSibling, [_el$28, _co$6] = (0, import_web$2.getNextMarker)(_el$27.nextSibling), _el$29 = _el$28.nextSibling, [_el$30, _co$7] = (0, import_web$2.getNextMarker)(_el$29.nextSibling), _el$31 = _el$30.nextSibling, [_el$32, _co$8] = (0, import_web$2.getNextMarker)(_el$31.nextSibling), _el$17 = _el$32.nextSibling, _el$19 = _el$17.firstChild, [_el$20, _co$3] = (0, import_web$2.getNextMarker)(_el$19.nextSibling), _el$18 = _el$20.nextSibling, _el$21 = _el$17.nextSibling, _el$23 = _el$21.firstChild, [_el$24, _co$4] = (0, import_web$2.getNextMarker)(_el$23.nextSibling), _el$22 = _el$24.nextSibling, _el$46 = _el$4.nextSibling, [_el$47, _co$10] = (0, import_web$2.getNextMarker)(_el$46.nextSibling), _el$48 = _el$47.nextSibling, [_el$49, _co$11] = (0, import_web$2.getNextMarker)(_el$48.nextSibling);
-		(0, import_web$6.insert)(_el$6, () => att.filename);
-		(0, import_web$6.insert)(_el$7, () => formatBytes(att.size));
-		(0, import_web$6.insert)(_el$4, (0, import_web$9.createComponent)(Show, {
+		const _el$4 = (0, import_web$9.getNextElement)(_tmpl$1), _el$47 = _el$4.firstChild, [_el$48, _co$10] = (0, import_web$2.getNextMarker)(_el$47.nextSibling), _el$5 = _el$48.nextSibling, _el$6 = _el$5.firstChild, _el$7 = _el$6.nextSibling, _el$8 = _el$7.nextSibling, _el$9 = _el$8.nextSibling, _el$26 = _el$9.nextSibling, [_el$27, _co$5] = (0, import_web$2.getNextMarker)(_el$26.nextSibling), _el$28 = _el$27.nextSibling, [_el$29, _co$6] = (0, import_web$2.getNextMarker)(_el$28.nextSibling), _el$30 = _el$29.nextSibling, [_el$31, _co$7] = (0, import_web$2.getNextMarker)(_el$30.nextSibling), _el$32 = _el$31.nextSibling, [_el$33, _co$8] = (0, import_web$2.getNextMarker)(_el$32.nextSibling), _el$18 = _el$33.nextSibling, _el$20 = _el$18.firstChild, [_el$21, _co$3] = (0, import_web$2.getNextMarker)(_el$20.nextSibling), _el$19 = _el$21.nextSibling, _el$22 = _el$18.nextSibling, _el$24 = _el$22.firstChild, [_el$25, _co$4] = (0, import_web$2.getNextMarker)(_el$24.nextSibling), _el$23 = _el$25.nextSibling, _el$49 = _el$5.nextSibling, [_el$50, _co$11] = (0, import_web$2.getNextMarker)(_el$49.nextSibling), _el$51 = _el$50.nextSibling, [_el$52, _co$12] = (0, import_web$2.getNextMarker)(_el$51.nextSibling);
+		(0, import_web$6.insert)(_el$4, (0, import_web$8.createComponent)(DeprecationNotice, {}), _el$48, _co$10);
+		(0, import_web$6.insert)(_el$7, () => att.filename);
+		(0, import_web$6.insert)(_el$8, () => formatBytes(att.size));
+		(0, import_web$6.insert)(_el$5, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return props.authorId;
 			},
 			get children() {
-				const _el$9 = (0, import_web$7.getNextElement)(_tmpl$2);
-				_el$9.$$click = toggleUser;
-				(0, import_web$6.insert)(_el$9, (0, import_web$9.createComponent)(UserIcon, {}));
-				(0, import_web$4.effect)(() => _el$9.classList.toggle("hv-toggle-on", !!userOn()));
+				const _el$0 = (0, import_web$9.getNextElement)(_tmpl$3);
+				_el$0.$$click = toggleUser;
+				(0, import_web$6.insert)(_el$0, (0, import_web$8.createComponent)(UserIcon, {}));
+				(0, import_web$4.effect)(() => _el$0.classList.toggle("hv-toggle-on", !!userOn()));
 				(0, import_web$5.runHydrationEvents)();
-				return _el$9;
+				return _el$0;
 			}
-		}), _el$26, _co$5);
-		(0, import_web$6.insert)(_el$4, (0, import_web$9.createComponent)(Show, {
+		}), _el$27, _co$5);
+		(0, import_web$6.insert)(_el$5, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return props.guildId;
 			},
 			get children() {
-				const _el$0 = (0, import_web$7.getNextElement)(_tmpl$3);
-				_el$0.$$click = toggleServer;
-				(0, import_web$6.insert)(_el$0, (0, import_web$9.createComponent)(ServerIcon, {}));
-				(0, import_web$4.effect)(() => _el$0.classList.toggle("hv-toggle-on", !!serverOn()));
+				const _el$1 = (0, import_web$9.getNextElement)(_tmpl$4);
+				_el$1.$$click = toggleServer;
+				(0, import_web$6.insert)(_el$1, (0, import_web$8.createComponent)(ServerIcon, {}));
+				(0, import_web$4.effect)(() => _el$1.classList.toggle("hv-toggle-on", !!serverOn()));
 				(0, import_web$5.runHydrationEvents)();
-				return _el$0;
+				return _el$1;
 			}
-		}), _el$28, _co$6);
-		(0, import_web$6.insert)(_el$4, (0, import_web$9.createComponent)(Show, {
+		}), _el$29, _co$6);
+		(0, import_web$6.insert)(_el$5, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return (0, import_web$3.memo)(() => !!!open())() && !tooBig();
 			},
 			get children() {
-				const _el$1 = (0, import_web$7.getNextElement)(_tmpl$4), _el$11 = _el$1.firstChild, [_el$12, _co$] = (0, import_web$2.getNextMarker)(_el$11.nextSibling), _el$10 = _el$12.nextSibling;
-				_el$1.$$click = () => setOpen(true);
-				(0, import_web$6.insert)(_el$1, (0, import_web$9.createComponent)(RenderIcon, {}), _el$12, _co$);
+				const _el$10 = (0, import_web$9.getNextElement)(_tmpl$5), _el$12 = _el$10.firstChild, [_el$13, _co$] = (0, import_web$2.getNextMarker)(_el$12.nextSibling), _el$11 = _el$13.nextSibling;
+				_el$10.$$click = () => setOpen(true);
+				(0, import_web$6.insert)(_el$10, (0, import_web$8.createComponent)(RenderIcon, {}), _el$13, _co$);
 				(0, import_web$5.runHydrationEvents)();
-				return _el$1;
+				return _el$10;
 			}
-		}), _el$30, _co$7);
-		(0, import_web$6.insert)(_el$4, (0, import_web$9.createComponent)(Show, {
+		}), _el$31, _co$7);
+		(0, import_web$6.insert)(_el$5, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return open();
 			},
 			get children() {
-				const _el$13 = (0, import_web$7.getNextElement)(_tmpl$5), _el$15 = _el$13.firstChild, [_el$16, _co$2] = (0, import_web$2.getNextMarker)(_el$15.nextSibling), _el$14 = _el$16.nextSibling;
-				_el$13.$$click = () => setOpen(false);
-				(0, import_web$6.insert)(_el$13, (0, import_web$9.createComponent)(CollapseIcon, {}), _el$16, _co$2);
+				const _el$14 = (0, import_web$9.getNextElement)(_tmpl$6), _el$16 = _el$14.firstChild, [_el$17, _co$2] = (0, import_web$2.getNextMarker)(_el$16.nextSibling), _el$15 = _el$17.nextSibling;
+				_el$14.$$click = () => setOpen(false);
+				(0, import_web$6.insert)(_el$14, (0, import_web$8.createComponent)(CollapseIcon, {}), _el$17, _co$2);
 				(0, import_web$5.runHydrationEvents)();
-				return _el$13;
+				return _el$14;
 			}
-		}), _el$32, _co$8);
-		_el$17.$$click = () => openFullView(att);
-		(0, import_web$6.insert)(_el$17, (0, import_web$9.createComponent)(ExpandIcon, {}), _el$20, _co$3);
-		_el$21.$$click = () => download(att);
-		(0, import_web$6.insert)(_el$21, (0, import_web$9.createComponent)(DownloadIcon, {}), _el$24, _co$4);
-		(0, import_web$6.insert)(_el$3, (0, import_web$9.createComponent)(Show, {
+		}), _el$33, _co$8);
+		_el$18.$$click = () => openFullView(att);
+		(0, import_web$6.insert)(_el$18, (0, import_web$8.createComponent)(ExpandIcon, {}), _el$21, _co$3);
+		_el$22.$$click = () => download(att);
+		(0, import_web$6.insert)(_el$22, (0, import_web$8.createComponent)(DownloadIcon, {}), _el$25, _co$4);
+		(0, import_web$6.insert)(_el$4, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return (0, import_web$3.memo)(() => !!tooBig())() && !open();
 			},
 			get children() {
-				const _el$33 = (0, import_web$7.getNextElement)(_tmpl$6), _el$36 = _el$33.firstChild, [_el$37, _co$9] = (0, import_web$2.getNextMarker)(_el$36.nextSibling), _el$34 = _el$37.nextSibling, _el$38 = _el$34.nextSibling, [_el$39, _co$0] = (0, import_web$2.getNextMarker)(_el$38.nextSibling), _el$35 = _el$39.nextSibling;
-				(0, import_web$6.insert)(_el$33, () => formatBytes(att.size), _el$37, _co$9);
-				(0, import_web$6.insert)(_el$33, () => store.maxSizeKb, _el$39, _co$0);
-				return _el$33;
+				const _el$34 = (0, import_web$9.getNextElement)(_tmpl$7), _el$37 = _el$34.firstChild, [_el$38, _co$9] = (0, import_web$2.getNextMarker)(_el$37.nextSibling), _el$35 = _el$38.nextSibling, _el$39 = _el$35.nextSibling, [_el$40, _co$0] = (0, import_web$2.getNextMarker)(_el$39.nextSibling), _el$36 = _el$40.nextSibling;
+				(0, import_web$6.insert)(_el$34, () => formatBytes(att.size), _el$38, _co$9);
+				(0, import_web$6.insert)(_el$34, () => store.maxSizeKb, _el$40, _co$0);
+				return _el$34;
 			}
-		}), _el$47, _co$10);
-		(0, import_web$6.insert)(_el$3, (0, import_web$9.createComponent)(Show, {
+		}), _el$50, _co$11);
+		(0, import_web$6.insert)(_el$4, (0, import_web$8.createComponent)(Show, {
 			get when() {
 				return open();
 			},
 			get children() {
 				return [
-					(0, import_web$9.createComponent)(Show, {
+					(0, import_web$8.createComponent)(Show, {
 						get when() {
 							return loading();
 						},
 						get children() {
-							return (0, import_web$7.getNextElement)(_tmpl$7);
+							return (0, import_web$9.getNextElement)(_tmpl$8);
 						}
 					}),
-					(0, import_web$9.createComponent)(Show, {
+					(0, import_web$8.createComponent)(Show, {
 						get when() {
 							return error();
 						},
 						get children() {
-							const _el$41 = (0, import_web$7.getNextElement)(_tmpl$8), _el$42 = _el$41.firstChild, _el$43 = _el$42.nextSibling, [_el$44, _co$1] = (0, import_web$2.getNextMarker)(_el$43.nextSibling);
-							(0, import_web$6.insert)(_el$41, error, _el$44, _co$1);
-							return _el$41;
+							const _el$42 = (0, import_web$9.getNextElement)(_tmpl$9), _el$43 = _el$42.firstChild, _el$44 = _el$43.nextSibling, [_el$45, _co$1] = (0, import_web$2.getNextMarker)(_el$44.nextSibling);
+							(0, import_web$6.insert)(_el$42, error, _el$45, _co$1);
+							return _el$42;
 						}
 					}),
-					(0, import_web$9.createComponent)(Show, {
+					(0, import_web$8.createComponent)(Show, {
 						get when() {
 							return (0, import_web$3.memo)(() => !!html())() && hasUntrustedRefs(html(), TRUSTED_CDNS);
 						},
 						get children() {
-							return (0, import_web$7.getNextElement)(_tmpl$9);
+							return (0, import_web$9.getNextElement)(_tmpl$0);
 						}
 					}),
 					holder
 				];
 			}
-		}), _el$49, _co$11);
+		}), _el$52, _co$12);
 		(0, import_web$5.runHydrationEvents)();
-		return _el$3;
+		return _el$4;
 	})();
 }
 const disposers = [];
@@ -410,7 +417,7 @@ function processRow(row) {
 		if (nativeWrap) nativeWrap.style.display = "none";
 		const mount = document.createElement("div");
 		mount.className = "hv-mount";
-		const dispose = render(() => (0, import_web$9.createComponent)(HtmlCard, {
+		const dispose = render(() => (0, import_web$8.createComponent)(HtmlCard, {
 			att,
 			authorId,
 			guildId
@@ -445,53 +452,58 @@ function settings() {
 		if (!Number.isNaN(n) && n > 0) store.maxSizeKb = n;
 	};
 	return (() => {
-		const _el$50 = (0, import_web$7.getNextElement)(_tmpl$1), _el$51 = _el$50.firstChild, [_el$52, _co$12] = (0, import_web$2.getNextMarker)(_el$51.nextSibling), _el$53 = _el$52.nextSibling, [_el$54, _co$13] = (0, import_web$2.getNextMarker)(_el$53.nextSibling), _el$55 = _el$54.nextSibling, [_el$56, _co$14] = (0, import_web$2.getNextMarker)(_el$55.nextSibling), _el$57 = _el$56.nextSibling, [_el$58, _co$15] = (0, import_web$2.getNextMarker)(_el$57.nextSibling), _el$59 = _el$58.nextSibling, [_el$60, _co$16] = (0, import_web$2.getNextMarker)(_el$59.nextSibling), _el$61 = _el$60.nextSibling, [_el$62, _co$17] = (0, import_web$2.getNextMarker)(_el$61.nextSibling), _el$63 = _el$62.nextSibling, [_el$64, _co$18] = (0, import_web$2.getNextMarker)(_el$63.nextSibling), _el$65 = _el$64.nextSibling, [_el$66, _co$19] = (0, import_web$2.getNextMarker)(_el$65.nextSibling), _el$67 = _el$66.nextSibling, [_el$68, _co$20] = (0, import_web$2.getNextMarker)(_el$67.nextSibling), _el$69 = _el$68.nextSibling, [_el$70, _co$21] = (0, import_web$2.getNextMarker)(_el$69.nextSibling);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Header, {
+		const _el$53 = (0, import_web$9.getNextElement)(_tmpl$10), _el$54 = _el$53.firstChild, [_el$55, _co$13] = (0, import_web$2.getNextMarker)(_el$54.nextSibling), _el$56 = _el$55.nextSibling, [_el$57, _co$14] = (0, import_web$2.getNextMarker)(_el$56.nextSibling), _el$58 = _el$57.nextSibling, [_el$59, _co$15] = (0, import_web$2.getNextMarker)(_el$58.nextSibling), _el$60 = _el$59.nextSibling, [_el$61, _co$16] = (0, import_web$2.getNextMarker)(_el$60.nextSibling), _el$62 = _el$61.nextSibling, [_el$63, _co$17] = (0, import_web$2.getNextMarker)(_el$62.nextSibling), _el$64 = _el$63.nextSibling, [_el$65, _co$18] = (0, import_web$2.getNextMarker)(_el$64.nextSibling), _el$66 = _el$65.nextSibling, [_el$67, _co$19] = (0, import_web$2.getNextMarker)(_el$66.nextSibling), _el$68 = _el$67.nextSibling, [_el$69, _co$20] = (0, import_web$2.getNextMarker)(_el$68.nextSibling), _el$70 = _el$69.nextSibling, [_el$71, _co$21] = (0, import_web$2.getNextMarker)(_el$70.nextSibling), _el$72 = _el$71.nextSibling, [_el$73, _co$22] = (0, import_web$2.getNextMarker)(_el$72.nextSibling), _el$74 = _el$73.nextSibling, [_el$75, _co$23] = (0, import_web$2.getNextMarker)(_el$74.nextSibling), _el$76 = _el$75.nextSibling, [_el$77, _co$24] = (0, import_web$2.getNextMarker)(_el$76.nextSibling);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(DeprecationNotice, {}), _el$55, _co$13);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Divider, {
+			mt: true,
+			mb: true
+		}), _el$57, _co$14);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Header, {
 			get tag() {
 				return HeaderTags.H3;
 			},
 			children: "Rendering"
-		}), _el$52, _co$12);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(SwitchItem, {
+		}), _el$59, _co$15);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(SwitchItem, {
 			get checked() {
 				return store.autoRenderAll;
 			},
 			onChange: (v) => store.autoRenderAll = v,
 			note: "Render every HTML artifact inline automatically, skipping the Render button.",
 			children: "Auto-render everything"
-		}), _el$54, _co$13);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Text, { children: "Max inline size (KB)" }), _el$56, _co$14);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(TextBox, {
+		}), _el$61, _co$16);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Text, { children: "Max inline size (KB)" }), _el$63, _co$17);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(TextBox, {
 			get value() {
 				return String(store.maxSizeKb);
 			},
 			onInput: onNum
-		}), _el$58, _co$15);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Divider, {
+		}), _el$65, _co$18);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Divider, {
 			mt: true,
 			mb: true
-		}), _el$60, _co$16);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Header, {
+		}), _el$67, _co$19);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Header, {
 			get tag() {
 				return HeaderTags.H3;
 			},
 			children: "Auto-render allowlists"
-		}), _el$62, _co$17);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Text, { children: "User IDs — comma-separated (easier: use the person toggle on a card)" }), _el$64, _co$18);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(TextBox, {
+		}), _el$69, _co$20);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Text, { children: "User IDs — comma-separated (easier: use the person toggle on a card)" }), _el$71, _co$21);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(TextBox, {
 			get value() {
 				return store.autoRenderUsers;
 			},
 			onInput: (v) => store.autoRenderUsers = v
-		}), _el$66, _co$19);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(Text, { children: "Server IDs — comma-separated (easier: use the server toggle on a card)" }), _el$68, _co$20);
-		(0, import_web$6.insert)(_el$50, (0, import_web$9.createComponent)(TextBox, {
+		}), _el$73, _co$22);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(Text, { children: "Server IDs — comma-separated (easier: use the server toggle on a card)" }), _el$75, _co$23);
+		(0, import_web$6.insert)(_el$53, (0, import_web$8.createComponent)(TextBox, {
 			get value() {
 				return store.autoRenderServers;
 			},
 			onInput: (v) => store.autoRenderServers = v
-		}), _el$70, _co$21);
-		return _el$50;
+		}), _el$77, _co$24);
+		return _el$53;
 	})();
 }
 let removeCss;
