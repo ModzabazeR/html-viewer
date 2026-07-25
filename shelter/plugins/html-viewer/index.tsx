@@ -72,7 +72,7 @@ const CSS = `
 .hv-frame{border:none;background:#fff;display:block;width:100%}
 .hv-frame-inline{height:480px;border-top:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
 .hv-frame-modal{height:80vh;min-height:80vh}
-.hv-modal{width:min(1100px,92vw)!important;max-width:1100px!important}
+.hv-modal{width:min(1600px,94vw)!important;max-width:94vw!important}
 `;
 
 // ---- fetch cache (attachment id -> html text) ----

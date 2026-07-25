@@ -138,7 +138,7 @@
 
 /* Widen the Full view modal well beyond Discord's LARGE default. */
 .vc-hv-modal {
-    width: min(1280px, 94vw) !important;
+    width: min(1600px, 94vw) !important;
     max-width: 94vw !important;
 }
 
