@@ -73,7 +73,25 @@ const CSS = `
 .hv-frame-inline{height:480px;border-top:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
 .hv-frame-modal{height:80vh;min-height:80vh}
 .hv-modal{width:min(1600px,94vw)!important;max-width:94vw!important}
+.hv-dep{padding:8px 10px;font-size:12px;line-height:1.5;color:var(--text-normal,#dbdee1);background:rgba(240,178,50,.1);border-bottom:1px solid var(--background-modifier-accent,rgba(255,255,255,.09))}
+.hv-dep b{color:var(--text-warning,#f0b232)}
+.hv-dep code{user-select:all;font-family:var(--font-code,monospace);background:rgba(0,0,0,.25);padding:1px 4px;border-radius:3px;white-space:nowrap}
 `;
+
+// This build is end-of-life: html-viewer now lives in the shelter-plugins hub.
+// Shelter auto-updates from the install URL, so users of the old URL would
+// otherwise sit on this build forever with no way to know. Say so in the card,
+// in settings, and in the plugin description.
+const NEW_URL = "https://modzabazer.github.io/shelter-plugins/html-viewer/";
+
+function DeprecationNotice() {
+    return (
+        <div class="hv-dep">
+            <b>⚠ HTML Viewer has moved.</b> This copy is deprecated and will not be updated again.
+            Remove it, then add <code>{NEW_URL}</code> as a new plugin.
+        </div>
+    );
+}
 
 // ---- fetch cache (attachment id -> html text) ----
 const htmlCache = new Map<string, string>();
@@ -192,6 +210,7 @@ function HtmlCard(props: { att: any; authorId?: string; guildId?: string; }) {
 
     return (
         <div class="hv-card">
+            <DeprecationNotice />
             <div class="hv-head">
                 <span class="hv-lock" title="Inline preview is sandboxed; Full view enables CDN network. Neither can touch Discord.">🔒</span>
                 <span class="hv-name">{att.filename}</span>
@@ -300,6 +319,8 @@ export function settings() {
     };
     return (
         <div>
+            <DeprecationNotice />
+            <Divider mt mb />
             <Header tag={HeaderTags.H3}>Rendering</Header>
             <SwitchItem
                 checked={store.autoRenderAll}

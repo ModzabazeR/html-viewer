@@ -1,4 +1,19 @@
-# html-viewer
+# html-viewer — ⚠️ DEPRECATED, this repo has moved
+
+> **This repository is no longer maintained.** `html-viewer` now lives in the
+> **[shelter-plugins](https://github.com/ModzabazeR/shelter-plugins)** hub alongside `md-tables`,
+> where both plugins share one CI gate (typecheck → tests → build) and one Pages site.
+>
+> **If you use Shelter:** remove this plugin and add the new install URL —
+> `https://modzabazer.github.io/shelter-plugins/html-viewer/`
+> The old URL still serves one final build whose only job is to tell you this. It will not be updated again.
+>
+> **If you use Vencord/Equicord (Legcord):** that target is retired. The code remains here under
+> `vencord/` for anyone who wants to keep building it, but it receives no further fixes.
+>
+> Everything below describes the archived state of this repo.
+
+---
 
 A Discord client-mod plugin that renders `.html` file attachments inline, inside a locked sandbox — instead of showing a download chip or raw source.
 
